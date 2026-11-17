@@ -1,0 +1,13 @@
+
+services:
+  server1:
+    image: ubuntu:24.04
+    container_name: server1
+    command: sleep infinity
+    tty: true
+
+  server2:
+    image: ubuntu:24.04
+    container_name: server2
+    command: sleep infinity
+    tty: true

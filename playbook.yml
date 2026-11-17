@@ -1,0 +1,43 @@
+
+---
+- name: Administrar servidores Ubuntu
+  hosts: servers
+  gather_facts: true
+
+  tasks:
+
+    - name: Mostrar nombre del servidor
+      debug:
+        msg: "Servidor: {{ inventory_hostname }}"
+
+    - name: Mostrar sistema operativo
+      debug:
+        msg: "Sistema operativo: {{ ansible_distribution }}"
+
+    - name: Crear directorio principal
+      file:
+        path: /tmp/ansible-demo
+        state: directory
+        mode: '0755'
+
+    - name: Crear archivo info.txt
+      copy:
+        dest: /tmp/ansible-demo/info.txt
+        content: |
+          Servidor: {{ inventory_hostname }}
+          Sistema operativo: {{ ansible_distribution }}
+
+    - name: Crear directorios adicionales
+      file:
+        path: "/tmp/ansible-demo/{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - logs
+        - backup
+        - config
+
+    - name: Mostrar mensaje si es Ubuntu
+      debug:
+        msg: "Este servidor utiliza Ubuntu"
+      when: ansible_distribution == "Ubuntu"
